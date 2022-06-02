@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Lexend Deca', sans-serif;
+  background-color: #70A0AF;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+header h1 {
+  color: #484349;
+  font-size: 5.4rem;
+}
+
+.gameboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 500px;
+  width: 500px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gameboard .tile {
+  border-radius: 8px;
+  cursor: pointer;
+  width: 31%;
+  height: 31%;
+  color: #484349;
+  background-color: #F7F0F0;
+  transition: all 0.1s;
+  font-size: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameboard .tile:hover {
+  transform: scale(1.05);
+}
