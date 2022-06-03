@@ -5,7 +5,8 @@ const Gameboard = (() => {
   let playersPicks = [[], []];
   
   function resetBoard() {
-    playersPicks = [[], []];
+    this.playersPicks = [[], []];
+    console.log(playersPicks);
   }
 
   function addPlayers(player1, player2) {
@@ -16,7 +17,7 @@ const Gameboard = (() => {
     const playerX = Player('testX', 'X');
     const playerO = Player('testO', 'O');
     
-    players = [];
+    this.players = [];
     
     addPlayers(playerX, playerO);
   }
@@ -32,6 +33,7 @@ const GameLogic = (() => {
   const replayBtn = document.querySelector('.replay-btn');
 
   let playerTurn = false;
+
   const winningScores = [
     [1, 2, 3], [4, 5, 6], [7, 8, 9],
     [1, 4, 7], [2, 5, 8], [3, 6, 9],
@@ -90,13 +92,20 @@ const GameLogic = (() => {
   function resetGame() {
     const replayOptionsEl = document.querySelector('.replay-options');
     const allBoardTiles = document.querySelectorAll('.tile');
+    const turnElement = document.querySelector('.turn-display');
+
+    playerTurn = false;
 
     Gameboard.resetBoard();
     Gameboard.createPlayers();
 
+    console.log(Gameboard.playersPicks);
+
     allBoardTiles.forEach(tile => {
       tile.textContent = '';
     });
+
+    turnElement.textContent = 'X';
 
     replayOptionsEl.classList.add('hidden');
     boardEl.addEventListener('click', playerClick);
@@ -112,9 +121,9 @@ const GameLogic = (() => {
 
 
 // HANDLES ALL OF THE DISPLAY CHANGING OF THE BOARD
-function GameDisplay() {
-  return {};
-}
+// function GameDisplay() {
+//   return {};
+// }
 
 
 // PLAYER HOSTS PLAYER INFO
@@ -133,7 +142,9 @@ Gameboard.createPlayers();
 
 
 
-
-
+// TODO:
+// 1. update for a tie
+// 2. update game display (if time)
+// 3. 
 
 
