@@ -41,6 +41,7 @@ header h1 {
   width: 500px;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4rem;
 }
 
 .gameboard .tile {
@@ -59,4 +60,26 @@ header h1 {
 
 .gameboard .tile:hover {
   transform: scale(1.05);
+}
+
+.game-stats {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.replay-options {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.replay-options.hidden {
+  visibility: hidden;
+}
+
+.replay-options .btn {
+  font-size: 2.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
 }
