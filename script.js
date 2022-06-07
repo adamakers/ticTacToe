@@ -157,5 +157,6 @@ GameBoard.createPlayers();
 // TODO:
 // 2. update game display (if time)
 // 3. figure out how to add player object
+// 4. turnElement control in GameObject
 
 
