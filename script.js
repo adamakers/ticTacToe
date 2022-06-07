@@ -1,6 +1,8 @@
 
-// GAMEBOARD
-const Gameboard = (() => {
+// GameBoard
+const GameBoard = (() => {
+  const boardEl = document.querySelector('.gameboard');
+
   let players = [];
   let playersPicks = [[], []];
   
@@ -22,14 +24,13 @@ const Gameboard = (() => {
     addPlayers(playerX, playerO);
   }
   
-  return { playersPicks, resetBoard, createPlayers };
+  return { boardEl, playersPicks, resetBoard, createPlayers };
 })();
 
 
 // LOGIC THAT HOSTS MOVES
 const GameLogic = (() => {
 
-  const boardEl = document.querySelector('.gameboard');
   const replayBtn = document.querySelector('.replay-btn');
 
   let playerTurn = false;
@@ -52,8 +53,8 @@ const GameLogic = (() => {
     
     const tileNumSelected = e.target.dataset.tilenum;
     
-    if (Gameboard.playersPicks[0].includes(tileNumSelected) ||
-    Gameboard.playersPicks[1].includes(tileNumSelected)) {
+    if (GameBoard.playersPicks[0].includes(tileNumSelected) ||
+    GameBoard.playersPicks[1].includes(tileNumSelected)) {
       return;
     }
 
@@ -71,22 +72,16 @@ const GameLogic = (() => {
       turnElement.textContent = 'X'
     }
 
-    Gameboard.playersPicks[playerIdx].push(+tileNumSelected);
+    GameBoard.playersPicks[playerIdx].push(+tileNumSelected);
 
-    if (checkWin(Gameboard.playersPicks[playerIdx])) {
-      gameOver();
+    if (checkWin(GameBoard.playersPicks[playerIdx])) {
+      GameDisplay.gameOver('player');
     }
-  }
 
-  // change this to game display object
-  function gameOver(outcome, player) {
-    const replayOptionsEl = document.querySelector('.replay-options');
-    const turnElement = document.querySelector('.turn-display');  // change to game display
-
-    replayOptionsEl.classList.remove('hidden');
-    turnElement.textContent = '';
-
-    boardEl.removeEventListener('click', playerClick);
+    // tie
+    if (GameBoard.playersPicks[0].length + GameBoard.playersPicks[1].length === 9) {
+      GameDisplay.gameOver();
+    }
   }
 
   function resetGame() {
@@ -96,10 +91,10 @@ const GameLogic = (() => {
 
     playerTurn = false;
 
-    Gameboard.resetBoard();
-    Gameboard.createPlayers();
+    GameBoard.resetBoard();
+    GameBoard.createPlayers();
 
-    console.log(Gameboard.playersPicks);
+    console.log(GameBoard.playersPicks);
 
     allBoardTiles.forEach(tile => {
       tile.textContent = '';
@@ -108,22 +103,39 @@ const GameLogic = (() => {
     turnElement.textContent = 'X';
 
     replayOptionsEl.classList.add('hidden');
-    boardEl.addEventListener('click', playerClick);
+    GameBoard.boardEl.addEventListener('click', playerClick);
   }
 
 
-  boardEl.addEventListener('click', playerClick);
+  GameBoard.boardEl.addEventListener('click', playerClick);
   replayBtn.addEventListener('click', resetGame);
-  
 
-  return {}
+  return {playerClick}
 })();
 
 
 // HANDLES ALL OF THE DISPLAY CHANGING OF THE BOARD
-// function GameDisplay() {
-//   return {};
-// }
+const GameDisplay = (() => {
+  const replayOptionsEl = document.querySelector('.replay-options');
+  const endGameMessage = document.querySelector('.replay-message');
+
+  const playerTurnEl = document.querySelector('.turn-display');
+
+  function gameOver(player = undefined) {
+    replayOptionsEl.classList.remove('hidden');
+    playerTurnEl.textContent = '--';
+
+    if (player) {
+      endGameMessage.textContent = `${player} has won the game!!!`;
+    } else {
+      endGameMessage.textContent = 'The game has tied!!!';
+    }
+
+    GameBoard.boardEl.removeEventListener('click', GameLogic.playerClick);
+  }
+
+  return { gameOver };
+})();
 
 
 // PLAYER HOSTS PLAYER INFO
@@ -138,13 +150,12 @@ function Player(name, symbol) {
 }
 
 
-Gameboard.createPlayers();
+GameBoard.createPlayers();
 
 
 
 // TODO:
-// 1. update for a tie
 // 2. update game display (if time)
-// 3. 
+// 3. figure out how to add player object
 
 
