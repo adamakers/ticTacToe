@@ -61,15 +61,13 @@ const GameLogic = (() => {
     playerTurn = !playerTurn;
     
     const playerIdx = playerTurn ? 1 : 0;
-
-    const turnElement = document.querySelector('.turn-display');
     
     if (playerTurn) {
       e.target.textContent = 'X';
-      turnElement.textContent = 'O'
+      GameDisplay.updatePlayerTurnEl('O');
     } else {
       e.target.textContent = 'O';
-      turnElement.textContent = 'X'
+      GameDisplay.updatePlayerTurnEl('X');
     }
 
     GameBoard.playersPicks[playerIdx].push(+tileNumSelected);
@@ -87,7 +85,6 @@ const GameLogic = (() => {
   function resetGame() {
     const replayOptionsEl = document.querySelector('.replay-options');
     const allBoardTiles = document.querySelectorAll('.tile');
-    const turnElement = document.querySelector('.turn-display');
 
     playerTurn = false;
 
@@ -100,7 +97,7 @@ const GameLogic = (() => {
       tile.textContent = '';
     });
 
-    turnElement.textContent = 'X';
+    GameDisplay.updatePlayerTurnEl('X');
 
     replayOptionsEl.classList.add('hidden');
     GameBoard.boardEl.addEventListener('click', playerClick);
@@ -118,7 +115,6 @@ const GameLogic = (() => {
 const GameDisplay = (() => {
   const replayOptionsEl = document.querySelector('.replay-options');
   const endGameMessage = document.querySelector('.replay-message');
-
   const playerTurnEl = document.querySelector('.turn-display');
 
   function gameOver(player = undefined) {
@@ -134,7 +130,11 @@ const GameDisplay = (() => {
     GameBoard.boardEl.removeEventListener('click', GameLogic.playerClick);
   }
 
-  return { gameOver };
+  function updatePlayerTurnEl(symbol) {
+    playerTurnEl.textContent = symbol;
+  }
+
+  return { gameOver, updatePlayerTurnEl };
 })();
 
 
@@ -151,12 +151,3 @@ function Player(name, symbol) {
 
 
 GameBoard.createPlayers();
-
-
-
-// TODO:
-// 2. update game display (if time)
-// 3. figure out how to add player object
-// 4. turnElement control in GameObject
-
-
