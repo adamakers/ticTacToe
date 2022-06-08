@@ -73,7 +73,7 @@ const GameLogic = (() => {
     GameBoard.playersPicks[playerIdx].push(+tileNumSelected);
 
     if (checkWin(GameBoard.playersPicks[playerIdx])) {
-      GameDisplay.gameOver('player');
+      GameDisplay.gameOver(playerTurn ? 'X' : 'O');
     }
 
     // tie
